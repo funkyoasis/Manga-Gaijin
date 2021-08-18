@@ -10,13 +10,16 @@ namespace TestLibrary
 	public class UserTests
 	{
 		MangaGaijinUsers _mangaGaijinUsers;
+		MangaGaijinCollections _mangaGaijinCollections;
 		[SetUp]
 		public void Setup()
 		{
 			_mangaGaijinUsers = new MangaGaijinUsers();
+			_mangaGaijinCollections = new MangaGaijinCollections();
 		}
 
 		[Test]
+		[Ignore("ignore")]
 		public void WhenAddingANewAdmin_CreateAdmin_CorrectlyAddsANewAdminTo_UsersTable()
 		{
 			using (var db = new MangaGaijinContext())
@@ -31,6 +34,7 @@ namespace TestLibrary
 		}
 
 		[Test]
+		[Ignore("ignore")]
 		public void WhenAddingANewUser_CreateUser_CorrectlyAddsANewUserTo_UsersTable()
 		{
 			using (var db = new MangaGaijinContext())
@@ -41,6 +45,24 @@ namespace TestLibrary
 				{
 					Assert.Pass();
 				}
+			}
+		}
+
+		[Test]
+		public void WhenAddingANewManga_AddManga_CorrectlyAddANewMangaTo_MangaTable()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				_mangaGaijinCollections.AddManga("Haikyuu", "Haruichi Furudate", 407, "Finished");
+				_mangaGaijinCollections.AddManga("OnePiece", "Eiichiro Oda", 1021, "Publishing");
+				_mangaGaijinCollections.AddManga("I Am a Hero", "Hanazawa Kengo", 264, "Finished");
+				_mangaGaijinCollections.AddManga("Homunculus", "Yamamoto Hideo", 166, "Finished");
+				var mangacheck = db.Manga.Where(m => m.MangaTitle == "Haikyuu").FirstOrDefault();
+				if (mangacheck.Chapters == 407)
+				{
+					Assert.Pass();
+				}
+
 			}
 		}
 

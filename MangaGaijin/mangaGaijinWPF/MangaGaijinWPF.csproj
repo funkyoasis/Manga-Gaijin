@@ -6,4 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseLayer\MangaGaijinData.csproj" />
+    <ProjectReference Include="..\MangaGaijinBusiness\MangaGaijinBusiness.csproj" />
+  </ItemGroup>
+
 </Project>

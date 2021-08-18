@@ -60,4 +60,44 @@ namespace MangaGaijinBusiness
 		}
 
 	}
+
+	//class for methods relating to manga/mangaCollections Tables
+	public class MangaGaijinCollections
+	{
+		//Call All Manga Titles
+		public List<Manga> RetrieveAllManga()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				return db.Manga.ToList();
+			}
+		}
+		//add a new Manga to Manga table
+		public void AddManga(string mangaTitle, string author,  int chapters, string publishStatus)
+		{
+			var newManga = new Manga() { MangaTitle = mangaTitle, Author = author, Chapters = chapters, PublishStatus = publishStatus };
+			using (var db = new MangaGaijinContext())
+			{
+				if (db.Manga.Where(m => m.MangaTitle == mangaTitle && m.Chapters == chapters).Count() == 1)
+				{
+					throw new ArgumentException("Manga Already exists");
+				}
+				else
+				{
+					db.Manga.Add(newManga);
+					db.SaveChanges();
+				}
+			}
+			
+		}
+
+		public void AddToUserCollection(string status, double rating, int chapterNo, int mangaId, int userId, int collectionId)
+		{
+
+
+		}
+
+
+
+	}
 }

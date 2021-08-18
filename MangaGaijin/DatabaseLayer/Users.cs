@@ -11,7 +11,6 @@ namespace MangaGaijinData
 
 		public User()
 		{
-			Collection = new HashSet<MangaCollection>();
 		}
 
 		public int UserID { get; set; }
@@ -19,7 +18,6 @@ namespace MangaGaijinData
 		public string Password { get; set; }
 		public bool Admin { get; set; }
 
-		public virtual ICollection<MangaCollection> Collection { get; set; }
 
 
 	}

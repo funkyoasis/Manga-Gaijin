@@ -5,8 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mangaGaijinWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Background="White" Height="450" Width="800">
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="UsernameListbox" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="50" Margin="20,10,0,0" Grid.RowSpan="2" Text="[Username]'s Manga" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="280" Background="Gray"/>
+        <TabControl Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="344" Margin="20,36,0,0" Grid.RowSpan="11" Grid.Row="1" VerticalAlignment="Top" Width="290">
+            <TabItem Header="All">
+                <DataGrid Name="allMangaList"></DataGrid>
+                <!--
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid Name="allMangaList"></DataGrid>
+                </Grid>
+                -->
+
+
+            </TabItem>
+            <TabItem Header="Currently Reading">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Completed">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Plan To Read">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
 
     </Grid>
 </Window>

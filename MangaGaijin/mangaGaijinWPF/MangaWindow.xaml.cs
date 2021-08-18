@@ -10,29 +10,28 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MangaGaijinData;
 using MangaGaijinBusiness;
-namespace mangaGaijinWPF
+namespace MangaGaijinWPF
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for MangaWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MangaWindow : Window
 	{
-		public MangaGaijinUsers _mangaGaijinUsers;
-		public MainWindow()
+		public MangaGaijinCollections _mangaGaijinCollections;
+		public MangaWindow()
 		{
 			InitializeComponent();
-			_mangaGaijinUsers = new MangaGaijinUsers();
-			var retrievedusers = _mangaGaijinUsers.RetrieveUsers();
-			allMangaList.ItemsSource = retrievedusers;
-			
-
+			PopulateAllManga();
 		}
 
-
-
+		public void PopulateAllManga()
+		{
+			_mangaGaijinCollections = new MangaGaijinCollections();
+			var retrievedManga = _mangaGaijinCollections.RetrieveAllManga();
+			listAllManga.ItemsSource = retrievedManga;
+		}
 	}
 }

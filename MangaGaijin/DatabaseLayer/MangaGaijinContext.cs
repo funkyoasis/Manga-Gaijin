@@ -10,6 +10,7 @@ namespace DatabaseLayer
 		
 		public DbSet<Manga> Manga { get; set; }
 
+		public DbSet<MangaCollectionLink> MangaCollectionLink { get; set; }
 		public DbSet<MangaCollection> MangaCollections { get; set; }
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
