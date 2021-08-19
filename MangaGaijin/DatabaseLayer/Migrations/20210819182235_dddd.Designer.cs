@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MangaGaijinData.Migrations
 {
     [DbContext(typeof(MangaGaijinContext))]
-    [Migration("20210817133028_newi")]
-    partial class newi
+    [Migration("20210819182235_dddd")]
+    partial class dddd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,8 +31,8 @@ namespace MangaGaijinData.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Chapters")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Chapters")
+                        .HasColumnType("int");
 
                     b.Property<string>("MangaTitle")
                         .HasColumnType("nvarchar(max)");
@@ -52,35 +52,45 @@ namespace MangaGaijinData.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Author")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Chapters")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MangaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MangaTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Rating")
+                    b.Property<double?>("Rating")
                         .HasColumnType("float");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("chapterNo")
+                    b.Property<int?>("chapterNo")
                         .HasColumnType("int");
 
                     b.HasKey("MangaCollectionId");
 
-                    b.HasIndex("UserID");
-
                     b.ToTable("MangaCollections");
+                });
+
+            modelBuilder.Entity("MangaGaijinData.MangaCollectionLink", b =>
+                {
+                    b.Property<int>("MangaCollectionLinkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MangaCollectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MangaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MangaCollectionLinkId");
+
+                    b.HasIndex("MangaCollectionId");
+
+                    b.HasIndex("MangaId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("MangaCollectionLink");
                 });
 
             modelBuilder.Entity("MangaGaijinData.User", b =>
@@ -104,16 +114,40 @@ namespace MangaGaijinData.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("MangaGaijinData.MangaCollectionLink", b =>
+                {
+                    b.HasOne("MangaGaijinData.MangaCollection", null)
+                        .WithMany("MangaCollectionLink")
+                        .HasForeignKey("MangaCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MangaGaijinData.Manga", null)
+                        .WithMany("CollectionLink")
+                        .HasForeignKey("MangaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MangaGaijinData.User", null)
+                        .WithMany("CollectionLink")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MangaGaijinData.Manga", b =>
+                {
+                    b.Navigation("CollectionLink");
+                });
+
             modelBuilder.Entity("MangaGaijinData.MangaCollection", b =>
                 {
-                    b.HasOne("MangaGaijinData.User", null)
-                        .WithMany("Collection")
-                        .HasForeignKey("UserID");
+                    b.Navigation("MangaCollectionLink");
                 });
 
             modelBuilder.Entity("MangaGaijinData.User", b =>
                 {
-                    b.Navigation("Collection");
+                    b.Navigation("CollectionLink");
                 });
 #pragma warning restore 612, 618
         }

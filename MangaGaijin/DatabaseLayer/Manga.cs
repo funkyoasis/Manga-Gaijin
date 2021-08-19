@@ -10,7 +10,7 @@ namespace MangaGaijinData
 	{
 		public Manga()
 		{
-			Collection = new HashSet<MangaCollectionLink>();
+			//Collection = new HashSet<MangaCollectionLink>();
 		}
 
 		public int MangaId { get; set; }
@@ -19,7 +19,7 @@ namespace MangaGaijinData
 		public int Chapters { get; set; }
 		public string PublishStatus { get; set; }
 
-		public virtual ICollection<MangaCollectionLink> Collection { get; set; }
+		//public virtual ICollection<MangaCollectionLink> CollectionLink { get; set; }
 
 		public override string ToString()
 		{

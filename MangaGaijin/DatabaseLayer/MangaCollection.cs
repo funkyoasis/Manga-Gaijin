@@ -15,8 +15,10 @@ namespace MangaGaijinData
 
 		public int MangaCollectionId { get; set; }
 		public string Status { get; set; }
-		public double Rating { get; set; }
-		public int chapterNo { get; set; }
+		public double? Rating { get; set; }
+		public int? chapterNo { get; set; }
+
+		//public virtual ICollection<MangaCollectionLink> MangaCollectionLink { get; set; }
 
 	}
 }

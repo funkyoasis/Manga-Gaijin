@@ -32,7 +32,51 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="AllMangaListBox" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="50" Margin="20,10,0,0" Grid.RowSpan="2" Text="[All Manga]" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="280" Background="Gray"/>
-        <ListBox x:Name="listAllManga" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="344" Margin="20,36,0,0" Grid.RowSpan="11" Grid.Row="1" VerticalAlignment="Top" Width="300"/>
+        <ListBox x:Name="ListBoxAllManga" SelectionChanged="ListBoxAllManga_SelectionChanged"  Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="344" Margin="20,36,0,0" Grid.RowSpan="11" Grid.Row="1" VerticalAlignment="Top" Width="300"/>
+        <Button x:Name="ButtonAddManga" Content="AddManga" Grid.Column="3" HorizontalAlignment="Left" Height="37" Margin="25,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="70">
+            <Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add To Reading" Click="ContextAddToReading_Click">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="textBlockRating_Reading" Grid.Row="1"  Text="Rating" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBox x:Name="textBoxRating_Reading" Margin="5 0 0 0" Grid.Row="1"  Width="50" Grid.Column="1"/>
+                            <TextBlock x:Name="textBlockChapterNo_Reading" Grid.Row="3" Text="ChapterNumber:" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBox x:Name="textBoxChapterNo_Reading" Margin="5 0 0 0" Grid.Row="3"  Width="50" Grid.Column="1"/>
+                        </Grid>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Add to Completed" Click="ContextAddToCompleted_Click">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="textBlockRating_Completed" Grid.Row="1"  Text="Rating" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBox x:Name="textBoxRating_Completed" Margin="5 0 0 0" Grid.Row="1"  Width="50" Grid.Column="1"/>
+                        </Grid>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Add To Plan To Read" Click="ContextAddToPlanToRead_Click"/>
+
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+        <ListBox x:Name="ListBoxAllUserManga" Grid.ColumnSpan="3" Grid.Column="5" HorizontalAlignment="Left" Height="344" Margin="0,36,0,0" Grid.RowSpan="11" Grid.Row="1" VerticalAlignment="Top" Width="290"/>
+
 
 
 
