@@ -41,7 +41,9 @@ namespace MangaGaijinBusiness
 				return db.Users.ToList();
 			}
 		}
-		//login
+		
+		
+		//login [Unable to fully Implpiment]
 
 		public bool Login(string username, string password)
 		{

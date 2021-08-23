@@ -79,6 +79,7 @@ namespace mangaGaijinWPF
 			PopulateCurrentlyReadingCollection();
 			PopulatePlanToReadCollection();
 			PopulateFavouritesbox();
+			PopulateRank();
 		}
 
 		public void PopulateFavouritesbox()

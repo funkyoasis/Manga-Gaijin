@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace TestLibrary
 {
-	public class UserTests
+	public class MangaGaijinTests
 	{
 		MangaGaijinUsers _mangaGaijinUsers;
 		MangaGaijinCollections _mangaGaijinCollections;
@@ -65,6 +65,39 @@ namespace TestLibrary
 
 			}
 		}
+
+		[Test]
+		public void WhenCallingAllManga_RetrieveAllManga_CorrectlyRetrievesAllMangaTitles()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var allmanga = _mangaGaijinCollections.RetrieveAllManga();
+				var resultallmanga = db.Manga.ToList();
+				Assert.That(allmanga.Count(), Is.EqualTo(resultallmanga.Count()));
+			}
+		}
+		[Test]
+		public void WhenCallingAllUsers_RetrieveUser_RetrievesAllUsers()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var allusers = db.Users.ToList();
+				var expectedusers = _mangaGaijinUsers.RetrieveUsers();
+				Assert.That(allusers.Count(), Is.EqualTo(expectedusers.Count()));
+			}
+		}
+
+		[Test]
+		[Ignore("Incomplete")]
+		public void WhenAddingAMangaToCollection_AddToMangaCollection_IncreasesUserCollectionBy1()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				
+			}
+		}
+
+
 
 
 	}
