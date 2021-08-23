@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MangaGaijinData.Migrations
 {
     [DbContext(typeof(MangaGaijinContext))]
-    [Migration("20210819181518_Initial")]
-    partial class Initial
+    [Migration("20210822165059_sdd")]
+    partial class sdd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,12 @@ namespace MangaGaijinData.Migrations
 
                     b.HasKey("MangaCollectionLinkId");
 
+                    b.HasIndex("MangaCollectionId");
+
+                    b.HasIndex("MangaId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("MangaCollectionLink");
                 });
 
@@ -97,9 +103,6 @@ namespace MangaGaijinData.Migrations
                     b.Property<bool>("Admin")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MangaCollectionLinkId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,20 +111,33 @@ namespace MangaGaijinData.Migrations
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("MangaCollectionLinkId");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("MangaGaijinData.User", b =>
-                {
-                    b.HasOne("MangaGaijinData.MangaCollectionLink", null)
-                        .WithMany("User")
-                        .HasForeignKey("MangaCollectionLinkId");
                 });
 
             modelBuilder.Entity("MangaGaijinData.MangaCollectionLink", b =>
                 {
+                    b.HasOne("MangaGaijinData.MangaCollection", "Collection")
+                        .WithMany()
+                        .HasForeignKey("MangaCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MangaGaijinData.Manga", "Manga")
+                        .WithMany()
+                        .HasForeignKey("MangaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MangaGaijinData.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collection");
+
+                    b.Navigation("Manga");
+
                     b.Navigation("User");
                 });
 #pragma warning restore 612, 618

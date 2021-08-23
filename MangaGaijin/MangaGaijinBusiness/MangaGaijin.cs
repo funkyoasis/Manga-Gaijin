@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
-
+using System.Diagnostics;
+using System.Windows;
 namespace MangaGaijinBusiness
 {
 	public class MangaGaijinUsers
@@ -25,11 +26,13 @@ namespace MangaGaijinBusiness
 				return DefaultUser = db.Users.FirstOrDefault();
 			}
 		}
-		public void SetSelectedUser(object SelectedItem)
+
+		public void SetSelectedUser(object loginUser)
 		{
-			SelectedUser = (User)SelectedItem;
+			SelectedUser = (User)loginUser;
 		}
 
+	
 		//retrieve all Users 
 		public List<User> RetrieveUsers()
 		{
@@ -38,7 +41,37 @@ namespace MangaGaijinBusiness
 				return db.Users.ToList();
 			}
 		}
+		//login
 
+		public bool Login(string username, string password)
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var userList = RetrieveUsers();
+				bool passwordCheck = new bool();
+				foreach (var user in userList)
+				{
+					if (user.UserName == username)
+					{
+						if (user.Password == password)
+						{
+							SetSelectedUser(user);
+							return passwordCheck = true;
+						}
+						else
+						{
+							return passwordCheck = false;
+						}
+					}
+					else
+					{
+						return passwordCheck = false;
+					}
+				}
+				return passwordCheck;
+				
+			}
+		}
 		//create a new user
 		//Admin
 		public void CreateAdmin(string username, string password, bool admin) 
@@ -50,6 +83,7 @@ namespace MangaGaijinBusiness
 				db.SaveChanges();
 			}
 		}
+		
 		//User
 		public void CreateUser(string username, string password)
 		{
@@ -77,10 +111,16 @@ namespace MangaGaijinBusiness
 		User _user = new User();
 		//Select a single Title
 		public Manga SelectedManga { get; set; }
-
 		public void SetSelectedManga(object selectedItem)
 		{
 			SelectedManga = (Manga)selectedItem;
+		}
+
+		//select a MangaCollectionLink Item (this is the object displayed in Xaml when looking at user manga titles)
+		public MangaCollectionLink SelectedCollectionLink { get; set; }
+		public void SetSelectedMangaCollectionLink(object selectedItem)
+		{
+			SelectedCollectionLink = (MangaCollectionLink)selectedItem;
 		}
 
 		//Call All Manga Titles
@@ -93,7 +133,64 @@ namespace MangaGaijinBusiness
 		}
 
 		//Call All Manga in collection
+		//As Manga Item
+		public List<Manga> RetrieveAllUserManga_Two(char key)
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var mangaList = new List<Manga>();
+				var mangaQuery = db.MangaCollectionLink.Include(m => m.Manga).Include(mc => mc.Collection).Where(mcl => mcl.UserId == _mangaGaijinUsers.SetDefaultUser().UserID).ToList();
+
+				if (key == 'a')
+				{
+					foreach (var manga in mangaQuery)
+					{
+						if (manga.Collection.Status == "Completed")
+						{
+							mangaList.Add(manga.Manga);
+						}
+					}
+					
+				}
+				else if (key =='b')
+				{
+					foreach (var manga in mangaQuery)
+					{
+						if (manga.Collection.Status == "Plan To Read")
+						{
+							mangaList.Add(manga.Manga);
+						}
+					}
+				}
+
+				else if (key == 'c')
+				{
+					foreach (var manga in mangaQuery)
+					{
+						if (manga.Collection.Status == "Currently Reading")
+						{
+							mangaList.Add(manga.Manga);
+						}
+					}
+				}
+
+				else if (key == 'd')
+				{
+					foreach (var manga in mangaQuery)
+					{
+						
+							mangaList.Add(manga.Manga);
+						
+					}
+				}
+
+				
+				return mangaList;
+			}
+			
+		}
 	
+		//As Collection Item
 		public List<MangaCollectionLink> RetrieveAllUserManga()
 		{
 			
@@ -109,6 +206,15 @@ namespace MangaGaijinBusiness
 				where mcl.UserId == _mangaGaijinUsers.SetDefaultUser().UserID
 				select new { MangaTitle = m.MangaTitle, Author = m.Author, ReadingStatus = mc.Status, Rating = mc.Rating };
 			*/
+				return mangaQuery;
+			}
+		}
+
+		public List<MangaCollectionLink> RetrieveFavouriteUserManga()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var mangaQuery = db.MangaCollectionLink.Include(m => m.Manga).Include(mc => mc.Collection).Where(mcl => mcl.UserId == _mangaGaijinUsers.SetDefaultUser().UserID).OrderByDescending(m=>m.Collection.Rating).Take(5).ToList();
 				return mangaQuery;
 			}
 		}
@@ -130,6 +236,8 @@ namespace MangaGaijinBusiness
 			}
 			
 		}
+
+		//Add manga Title to User Collection
 
 		public void AddToMangaCollection(string status, double? rating, int? chapterNo)
 		{
@@ -159,6 +267,44 @@ namespace MangaGaijinBusiness
 			}
 
 		}
+
+		//Delete Manga Title from User Collection
+
+		public void DeleteFromUserMangaSelected()
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var selectedCollectionLinkItem = db.MangaCollectionLink.Where(mcl => mcl.MangaCollectionLinkId == SelectedCollectionLink.MangaCollectionLinkId).FirstOrDefault();
+				var selectedmangaCollectionItem = db.MangaCollections.Where(mc => mc.MangaCollectionId == SelectedCollectionLink.MangaCollectionId).FirstOrDefault();
+				db.Remove(selectedmangaCollectionItem);
+				db.Remove(selectedCollectionLinkItem);
+				db.SaveChanges();
+			}
+			
+		}
+
+		public bool UpdateUserManga(string status, double? rating , int? chapterNo)
+		{
+			using (var db = new MangaGaijinContext())
+			{
+				var selectedUpdateManga = db.MangaCollections.Where(sm => sm.MangaCollectionId == SelectedCollectionLink.MangaCollectionId).FirstOrDefault();
+				selectedUpdateManga.Status = status;
+				selectedUpdateManga.Rating = rating;
+				selectedUpdateManga.chapterNo = chapterNo;
+				try
+				{
+					db.SaveChanges();
+				}
+				catch (Exception e)
+				{
+					Debug.WriteLine($"Error Updating {SelectedManga.MangaTitle}");
+					return false;
+				}
+			}
+			return true;
+		}
+
+		//Update User Selected
 
 
 

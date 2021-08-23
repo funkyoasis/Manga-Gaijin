@@ -32,10 +32,22 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="UsernameListbox" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="50" Margin="20,10,0,0" Grid.RowSpan="2" Text="[Username]'s Manga" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="280" Background="Gray"/>
-        <TabControl Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="344" Margin="20,36,0,0" Grid.RowSpan="11" Grid.Row="1" VerticalAlignment="Top" Width="290">
-            <TabItem Header="All">
-                <DataGrid Name="allMangaList"></DataGrid>
+        <Image Source="c:\Users\Kyoto Samurai\Pictures\berserk-kentaro-miura-guts-manga-wallpaper-preview.jpg" Grid.ColumnSpan="8" Margin="-462,-94,-462,-95" Grid.RowSpan="12"/>
+
+
+
+        <Rectangle Fill="#023255" Grid.ColumnSpan="3" Grid.Column="5" Height="30" Margin="0,36,88,0" Grid.RowSpan="2" Grid.Row="1" Stroke="Black" VerticalAlignment="Top"/>
+
+
+
+        <Rectangle Grid.Column="5" Fill="#023255" Margin="0,35,88,25" Grid.RowSpan="6" Grid.Row="2" Stroke="Black" Grid.ColumnSpan="3"/>
+
+
+
+        <TextBox x:Name="UsernameListbox" Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="50" Margin="20,17,0,0" Grid.RowSpan="2" Text="Your Manga List" FontSize="30" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Width="280" Background="Gray"/>
+        <TabControl Background="#76B4DF" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="344" Margin="20,36,0,0" Grid.RowSpan="11" Grid.Row="1" VerticalAlignment="Top" Width="290">
+            <TabItem  Header="All" Background="#023255">
+                <ListBox x:Name="allMangaList" Background="#76B4DF"/>
                 <!--
                 <Grid Background="#FFE5E5E5">
                     <DataGrid Name="allMangaList"></DataGrid>
@@ -44,16 +56,28 @@
 
 
             </TabItem>
-            <TabItem Header="Currently Reading">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Currently Reading" Background="#023255">
+                <ListBox x:Name="CurrentlyReadingMangaList" Background="#76B4DF" />
             </TabItem>
-            <TabItem Header="Completed">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Completed" Background="#023255">
+                <ListBox x:Name="CompletedMangaList" Background="#76B4DF" />
             </TabItem>
-            <TabItem Header="Plan To Read">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Plan To Read" Background="#023255">
+                <ListBox x:Name="PlanToReadMangaList" Background="#76B4DF" />
             </TabItem>
         </TabControl>
+        <Button Content="Update List" Background="#76B4DF" Click="UpdateList_Click" Grid.Column="3" HorizontalAlignment="Left" Margin="21,2,0,10" Grid.Row="2" Width="77"/>
+        <Button Content="Refresh" Background="#76B4DF" Click="Refresh_Click" Grid.Column="4" Margin="3,2,21,10" Grid.Row="2"/>
+        <Label Content="Favourite Titles" Background="#76B4DF" Grid.Column="5" Margin="10,2,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="25"/>
+        <ListBox Name="ListBoxFavourites" Background="#76B4DF" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="2" Margin="10,3,0,29" Grid.RowSpan="5"/>
+        <Rectangle Fill="#023255" Grid.ColumnSpan="3" Grid.Column="5" HorizontalAlignment="Left" Grid.Row="8" Stroke="Black" Width="212" Margin="0,1,0,36" Grid.RowSpan="4"/>
+        <Label Content="Current Rank" Background="#76B4DF" Grid.Column="5" Grid.Row="8" Margin="10,6,3,7"/>
+        <TextBox Name="TextBoxRank" Grid.Column="6" Background="#76B4DF" HorizontalAlignment="Left" Grid.Row="8" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="92" Height="23" Margin="4,0,0,0"/>
+        <ProgressBar Background="#023255" Grid.ColumnSpan="2" Grid.Column="5" HorizontalAlignment="Left" Height="21" Margin="16,5,0,0" Grid.Row="10" VerticalAlignment="Top" Width="180"/>
+        <Border Background="#76B4DF" BorderThickness="1" BorderBrush="Black" Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="2" Margin="16,4,4,6">
+            <Label Content="Progress Till Next Rank" Margin="-1,-1,1,-1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Border>
+
 
 
     </Grid>

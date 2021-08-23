@@ -32,9 +32,6 @@ namespace MangaGaijinData.Migrations
                     b.Property<int>("Chapters")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MangaCollectionLinkId")
-                        .HasColumnType("int");
-
                     b.Property<string>("MangaTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -42,8 +39,6 @@ namespace MangaGaijinData.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MangaId");
-
-                    b.HasIndex("MangaCollectionLinkId");
 
                     b.ToTable("Manga");
                 });
@@ -55,9 +50,6 @@ namespace MangaGaijinData.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MangaCollectionLinkId")
-                        .HasColumnType("int");
-
                     b.Property<double?>("Rating")
                         .HasColumnType("float");
 
@@ -68,8 +60,6 @@ namespace MangaGaijinData.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MangaCollectionId");
-
-                    b.HasIndex("MangaCollectionLinkId");
 
                     b.ToTable("MangaCollections");
                 });
@@ -91,6 +81,10 @@ namespace MangaGaijinData.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MangaCollectionLinkId");
+
+                    b.HasIndex("MangaCollectionId");
+
+                    b.HasIndex("MangaId");
 
                     b.HasIndex("UserId");
 
@@ -118,36 +112,31 @@ namespace MangaGaijinData.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MangaGaijinData.Manga", b =>
-                {
-                    b.HasOne("MangaGaijinData.MangaCollectionLink", null)
-                        .WithMany("Manga")
-                        .HasForeignKey("MangaCollectionLinkId");
-                });
-
-            modelBuilder.Entity("MangaGaijinData.MangaCollection", b =>
-                {
-                    b.HasOne("MangaGaijinData.MangaCollectionLink", null)
-                        .WithMany("Collection")
-                        .HasForeignKey("MangaCollectionLinkId");
-                });
-
             modelBuilder.Entity("MangaGaijinData.MangaCollectionLink", b =>
                 {
+                    b.HasOne("MangaGaijinData.MangaCollection", "Collection")
+                        .WithMany()
+                        .HasForeignKey("MangaCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MangaGaijinData.Manga", "Manga")
+                        .WithMany()
+                        .HasForeignKey("MangaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MangaGaijinData.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MangaGaijinData.MangaCollectionLink", b =>
-                {
                     b.Navigation("Collection");
 
                     b.Navigation("Manga");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

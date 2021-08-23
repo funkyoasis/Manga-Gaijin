@@ -40,12 +40,14 @@ namespace MangaGaijinWPF
 		}
 
 		
+		//Displays The user's manga Collection
 		public void PopulateAllMangaCollection()
 		{
 			//var mangas = new Manga();
 			var retrievedCollection = _mangaGaijinCollections.RetrieveAllUserManga();
 			ListBoxAllUserManga.ItemsSource = retrievedCollection;
 			
+	
 		}
 		
 
@@ -66,6 +68,7 @@ namespace MangaGaijinWPF
 				var ratingNo = Convert.ToDouble(textBoxRating_Reading.Text);
 				var chapterNo = Convert.ToInt32(textBoxChapterNo_Reading.Text);
 				_mangaGaijinCollections.AddToMangaCollection("Currently Reading", ratingNo, chapterNo);
+				PopulateAllMangaCollection();
 			}
 		}
 		private void ContextAddToCompleted_Click(object sender, RoutedEventArgs e)
@@ -73,8 +76,9 @@ namespace MangaGaijinWPF
 			if (ListBoxAllManga.SelectedItem != null)
 			{
 				_mangaGaijinCollections.SetSelectedManga(ListBoxAllManga.SelectedItem);
-				var chapterNo = Convert.ToInt32(textBoxRating_Completed.Text);
-				_mangaGaijinCollections.AddToMangaCollection("Completed",chapterNo,null);
+				var rating = Convert.ToDouble(textBoxRating_Completed.Text);
+				_mangaGaijinCollections.AddToMangaCollection("Completed",rating,null);
+				PopulateAllMangaCollection();
 			}
 
 		}
@@ -84,7 +88,62 @@ namespace MangaGaijinWPF
 			{
 				_mangaGaijinCollections.SetSelectedManga(ListBoxAllManga.SelectedItem);
 				_mangaGaijinCollections.AddToMangaCollection("Plan To Read", null, null);
+				PopulateAllMangaCollection();
 			}
 		}
+
+		private void Button_DeleteUserManga_Click(object sender, RoutedEventArgs e)
+		{
+			if (ListBoxAllUserManga.SelectedItem != null)
+			{
+				_mangaGaijinCollections.SetSelectedMangaCollectionLink(ListBoxAllUserManga.SelectedItem);
+				_mangaGaijinCollections.DeleteFromUserMangaSelected();
+				PopulateAllMangaCollection();
+			}
+
+		}
+
+
+		public void ContextEditToPlanToRead_Click(object sender, RoutedEventArgs e)
+		{
+			if (ListBoxAllUserManga.SelectedItem != null)
+			{
+				_mangaGaijinCollections.SetSelectedMangaCollectionLink(ListBoxAllUserManga.SelectedItem);
+				_mangaGaijinCollections.UpdateUserManga("Plan To Read", null, null);
+				PopulateAllMangaCollection();
+			}
+		}
+
+		public void ContextEditToCompleted_Click(object sender, RoutedEventArgs e)
+		{
+			if (ListBoxAllUserManga.SelectedItem != null)
+			{
+				_mangaGaijinCollections.SetSelectedMangaCollectionLink(ListBoxAllUserManga.SelectedItem);
+				var rating = Convert.ToDouble(textBoxEditRating_Completed.Text);
+				_mangaGaijinCollections.UpdateUserManga("Completed", rating, null);
+				PopulateAllMangaCollection();
+			}
+		}
+
+		public void ContextEditToReading_Click(object sender, RoutedEventArgs e)
+		{
+			if (ListBoxAllUserManga.SelectedItem != null)
+			{
+				_mangaGaijinCollections.SetSelectedMangaCollectionLink(ListBoxAllUserManga.SelectedItem);
+				var CurrentRating = Convert.ToDouble(textBoxEditRating_Reading.Text);
+				var chapterNo = Convert.ToInt32(textBoxEditChapterNo_Reading.Text);
+				_mangaGaijinCollections.UpdateUserManga("Currently Reading", CurrentRating,chapterNo);
+				PopulateAllMangaCollection();
+
+			}
+		}
+
+		public void ButtonReturn_Click(object sender, RoutedEventArgs e)
+		{
+			mangaGaijinWPF.MainWindow mw = new mangaGaijinWPF.MainWindow();
+			Close();
+			
+		}
+		
 	}
 }
