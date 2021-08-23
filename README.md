@@ -2,7 +2,9 @@
 
 ### Project Goal
 
-To create a functional 3 layer 'Manga' Tracker consisting of a WPF front end, c# middle and SQL backend. 
+To create a functional 3 layer 'Manga' Tracker consisting of a WPF front end, c# middle and SQL backend.
+This App Allows the User to Add titles to their own list with various properties such as Completed, Currently Reading,
+Delete Titles, Update Current tiles, give ratings. 
 
 Project Definition of Done: All core Features are implemented and tests pass.
 
